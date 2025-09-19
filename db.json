@@ -1,0 +1,106 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "John Doe",
+      "role": "Student",
+      "email": "john@example.com",
+      "password": "password123"
+    },
+    {
+      "id": "2",
+      "name": "Jane Smith",
+      "role": "Instructor",
+      "email": "jane@example.com",
+      "password": "password123"
+    },
+    {
+      "id": "ef9b",
+      "name": "SUBHASH KUMAR CHOUDHARY",
+      "role": "student",
+      "email": "subhashkumar.choudhary@cognizant.com",
+      "password": "dnkjid"
+    },
+    {
+      "id": "0450",
+      "name": "SUBHASH KUMAR CHOUDHARY",
+      "role": "student",
+      "email": "subhashkumar.choudhary@cognizant.com",
+      "password": "djhiuhew"
+    },
+    {
+      "id": "02b6",
+      "name": "SUBHASH 22",
+      "role": "student",
+      "email": "subhashkumar.choudhary@cognizant.com",
+      "password": "lwjnihx"
+    },
+    {
+      "id": "7c7d",
+      "name": "SUBHASH 23",
+      "role": "student",
+      "email": "subhashkumar.choudhary@cognizant.com",
+      "password": "siyi"
+    },
+    {
+      "id": "11b7",
+      "name": "SUBHASH 24",
+      "role": "student",
+      "email": "subhashkumar.choudhary@cognizant.com",
+      "password": "hvfyt"
+    },
+    {
+      "id": "1aa1",
+      "name": "Anurag ",
+      "role": "student",
+      "email": "chysubhash1234@gmail.com",
+      "password": "Dusiubx"
+    },
+    {
+      "id": "0e33",
+      "name": "kjdbisgyusdg",
+      "role": "dljnicusa",
+      "email": "diwah9h98",
+      "password": "dnasiuhad"
+    },
+    {
+      "id": "21e9",
+      "name": "Ansh Sharma",
+      "role": "Student",
+      "email": "chysubhash1234@gmail.com",
+      "password": "jffutrilih,kM"
+    }
+  ],
+  "courses": [],
+  "enrollments": [
+    {
+      "id": "1",
+      "studentID": 1,
+      "courseID": 1,
+      "progress": 50
+    }
+  ],
+  "assessments": [
+    {
+      "id": "1",
+      "courseID": 1,
+      "type": "Quiz",
+      "maxScore": 100
+    }
+  ],
+  "submissions": [
+    {
+      "id": "1",
+      "assessmentID": 1,
+      "studentID": 1,
+      "score": 85
+    }
+  ],
+  "notifications": [
+    {
+      "id": "1",
+      "message": "New course available: React Basics",
+      "userID": 1
+    }
+  ]
+}
