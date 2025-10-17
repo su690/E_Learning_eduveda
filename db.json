@@ -1,106 +1,135 @@
-{
-  "users": [
-    {
-      "id": "1",
-      "name": "John Doe",
-      "role": "Student",
-      "email": "john@example.com",
-      "password": "password123"
-    },
-    {
-      "id": "2",
-      "name": "Jane Smith",
-      "role": "Instructor",
-      "email": "jane@example.com",
-      "password": "password123"
-    },
-    {
-      "id": "ef9b",
-      "name": "SUBHASH KUMAR CHOUDHARY",
-      "role": "student",
-      "email": "subhashkumar.choudhary@cognizant.com",
-      "password": "dnkjid"
-    },
-    {
-      "id": "0450",
-      "name": "SUBHASH KUMAR CHOUDHARY",
-      "role": "student",
-      "email": "subhashkumar.choudhary@cognizant.com",
-      "password": "djhiuhew"
-    },
-    {
-      "id": "02b6",
-      "name": "SUBHASH 22",
-      "role": "student",
-      "email": "subhashkumar.choudhary@cognizant.com",
-      "password": "lwjnihx"
-    },
-    {
-      "id": "7c7d",
-      "name": "SUBHASH 23",
-      "role": "student",
-      "email": "subhashkumar.choudhary@cognizant.com",
-      "password": "siyi"
-    },
-    {
-      "id": "11b7",
-      "name": "SUBHASH 24",
-      "role": "student",
-      "email": "subhashkumar.choudhary@cognizant.com",
-      "password": "hvfyt"
-    },
-    {
-      "id": "1aa1",
-      "name": "Anurag ",
-      "role": "student",
-      "email": "chysubhash1234@gmail.com",
-      "password": "Dusiubx"
-    },
-    {
-      "id": "0e33",
-      "name": "kjdbisgyusdg",
-      "role": "dljnicusa",
-      "email": "diwah9h98",
-      "password": "dnasiuhad"
-    },
-    {
-      "id": "21e9",
-      "name": "Ansh Sharma",
-      "role": "Student",
-      "email": "chysubhash1234@gmail.com",
-      "password": "jffutrilih,kM"
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+ 
+const API_BASE = "http://localhost:8080/api/v1"; // backend base URL
+ 
+const Signup = () => {
+  const [name, setName] = useState("");
+  const [role, setRole] = useState("Student");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+ 
+  const handleSignup = async (e) => {
+    e.preventDefault();
+ 
+    // Validation
+    if (!name || !email || !password || !role) {
+      toast.error("All fields are required");
+      return;
     }
-  ],
-  "courses": [],
-  "enrollments": [
-    {
-      "id": "1",
-      "studentID": 1,
-      "courseID": 1,
-      "progress": 50
+ 
+    const studentEmailRegex = /^[^\s@]+@stu\.com$/;
+    const instructorEmailRegex = /^[^\s@]+@ins\.com$/;
+ 
+    if (role === "Student" && !studentEmailRegex.test(email)) {
+      toast.error("Student email must end with @stu.com");
+      return;
     }
-  ],
-  "assessments": [
-    {
-      "id": "1",
-      "courseID": 1,
-      "type": "Quiz",
-      "maxScore": 100
+ 
+    if (role === "Instructor" && !instructorEmailRegex.test(email)) {
+      toast.error("Instructor email must end with @ins.com");
+      return;
     }
-  ],
-  "submissions": [
-    {
-      "id": "1",
-      "assessmentID": 1,
-      "studentID": 1,
-      "score": 85
+ 
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-[\]{};':"\\|,.<>/?]).{8,}$/;
+    if (!passwordRegex.test(password)) {
+      toast.error("Password must be at least 8 characters, include one uppercase, one number, and one special character");
+      return;
     }
-  ],
-  "notifications": [
-    {
-      "id": "1",
-      "message": "New course available: React Basics",
-      "userID": 1
+ 
+    try {
+      // Check if user exists
+      const existingUser = await axios.get(`${API_BASE}/users?email=${email}`);
+      const userExists = Array.isArray(existingUser.data)
+        ? existingUser.data.length > 0
+        : existingUser.data.users?.some((u) => u.email === email);
+ 
+      if (userExists) {
+        toast.error("User already exists. Please login.");
+        return;
+      }
+ 
+      // New user object
+      const newUser = {
+        name,
+        role,
+        email,
+        password,
+        username: email,
+      };
+ 
+      // Post data to backend
+      const response = await axios.post(`${API_BASE}/users`, newUser);
+ 
+      console.log("User created:", response.data); // Logs inserted user
+      toast.success("Account created successfully!");
+      navigate("/login");
+    } catch (err) {
+      console.error("Signup failed:", err);
+      if (err.response?.data?.message) {
+        toast.error(err.response.data.message);
+      } else {
+        toast.error("Something went wrong. Try again.");
+      }
     }
-  ]
-}
+  };
+ 
+  return (
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <form
+        onSubmit={handleSignup}
+        className="bg-white p-8 rounded-xl shadow-lg w-96"
+      >
+        <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
+ 
+        <input
+          type="text"
+          placeholder="Full Name"
+          className="w-full p-3 border rounded mb-4"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+ 
+        <select
+          className="w-full p-3 border rounded mb-4"
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+        >
+          <option value="Student">Student</option>
+          <option value="Instructor">Instructor</option>
+        </select>
+ 
+        <input
+          type="email"
+          placeholder="Email"
+          className="w-full p-3 border rounded mb-4"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+ 
+        <input
+          type="password"
+          placeholder="Password"
+          className="w-full p-3 border rounded mb-4"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+ 
+        <button
+          type="submit"
+          className="w-full bg-indigo-600 text-white p-3 rounded hover:bg-indigo-700"
+        >
+          Sign Up
+        </button>
+      </form>
+    </div>
+  );
+};
+ 
+export default Signup;
